@@ -1,0 +1,18 @@
+.wbdv-sticky-top {
+  width: 100%;
+  background-color: lightblue;
+  z-index: 1;
+}
+
+.wbdv-padding-5px {
+  padding: 5px;
+}
+
+.add-button {
+  margin-top: 5px;
+}
+
+.options {
+  margin-left: 20px;
+}
+
