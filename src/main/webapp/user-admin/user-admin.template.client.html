@@ -3,6 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <title>Title</title>
+</head>
+<body>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
   <link rel="stylesheet" href=
       "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
   <link rel="stylesheet" href=
@@ -13,46 +21,57 @@
   <script src="../services/user.service.client.js"></script>
   <script src="user-admin.controller.client.js"></script>
 
-  <style>
-    /*h1 {*/
-    /*    background-color: red*/
-    /*}*/
-  </style>
 </head>
 <body>
 <div class="container-fluid">
-  <h1 id="the-course-list-heading">Course List</h1>
-  <button id="wbdv-create-course">Add Course</button>
+  <h1 id="the-course-list-heading">User Admin</h1>
   <table class="table">
     <thead>
     <tr>
-      <th>Title</th>
-      <th>Seats</th>
-      <th>Semester</th>
-      <th></th>
+      <th>Username</th>
+      <th>Password</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Role</th>
+      <th>&nbsp;</th>
     </tr>
     <tr>
-      <th><input class="form-control wbdv-title-fld"/></th>
       <th>
-        <input type="number"
-               class="form-control wbdv-seats-fld"/></th>
-      <th>
-        <select class="form-control wbdv-semester-fld">
-          <option>Spring</option>
-          <option>Summer</option>
-          <option>Fall</option>
-        </select>
+        <input class="form-control wbdv-username-fld"
+               placeholder="Username"/>
       </th>
       <th>
-        <button class="wbdv-update-btn">Update</button>
-        <button class="wbdv-create-btn">Create</button>
+        <input class="form-control wbdv-password-fld"
+               type="password"
+               placeholder="Password"/>
+      </th>
+      <th>
+        <input class="form-control wbdv-first-name-fld"
+               placeholder="First Name"/>
+      </th>
+      <th>
+        <input class="form-control wbdv-last-name-fld"
+               placeholder="Last Name"/>
+      </th>
+      <th>
+        <select class="form-control wbdv-role-fld">
+          <option>Faculty</option>
+          <option>Student</option>
+          <option>Admin</option>
+        </select>
+      <th class="pull-right">
+        <i class="fa fa-2x fa-plus wbdv-create-btn"></i>
+        <i class="fa fa-2x fa-check wbdv-update-btn"></i>
       </th>
     </tr>
     </thead>
-    <tbody>
+    <tbody id="table-rows">
     </tbody>
   </table>
-  <h1>Register for courses now!</h1>
 </div>
 </body>
 </html>
+
+</body>
+</html>
+

@@ -1,42 +1,42 @@
-var titleFld
-var $seatsFld
-var $semesterFld
+var $usernameFld
+var $firstNameFld
+var $lastNameFld
+var $passwordFld
+var $roleFld
 var $createBtn
-var addCourseBtn
 var theTableBody
 var $updateBtn
 var courseService = new CourseServiceClient()
 
 function addCourse() {
-  createCourse({
-    title: 'NEW COURSE',
-    seats: 100,
-    semester: 'Fall'
+  createUser({
+    username: 'NEW COURSE',
+    password: 100,
+    firstName: 'Fall',
+    lastName: 'wer',
+    role: 'we'
   })
 }
-var courses = [];
+var users = [];
 
-function createCourse(course) {
-  courseService.createCourse(course)
-  .then(function (actualCourse) {
-    courses.push(actualCourse)
-    renderCourses(courses)
+function createUser(user) {
+  courseService.createCourse(user)
+  .then(function (actualUser) {
+    users.push(actualUser)
+    renderCourses(users)
   })
 }
 
-// createCourse({title: 'CS1111', seats: 11, semester: 'Fall'})
-// createCourse({title: 'CS2222', seats: 22, semester: 'Fall'})
-// createCourse({title: 'CS3333', seats: 33, semester: 'Fall'})
-// createCourse({title: 'CS4444', seats: 44, semester: 'Fall'})
-
-var selectedCourse = null
-function selectCourse(event) {
+var selectedUser = null
+function selectUser(event) {
   var selectBtn = jQuery(event.target)
   var theId = selectBtn.attr("id")
-  selectedCourse = courses.find(course => course._id === theId)
-  titleFld.val(selectedCourse.title)
-  $seatsFld.val(selectedCourse.seats)
-  $semesterFld.val(selectedCourse.semester)
+  selectedUser = users.find(user => user._id === theId)
+  $usernameFld.val(selectedUser.username)
+  $passwordFld.val(selectedUser.password)
+  $firstNameFld.val(selectedUser.firstName)
+  $lastNameFld.val(selectedUser.lastName)
+  $roleFld.val(selectedUser.role)
 }
 
 function deleteCourse(event) {
@@ -44,30 +44,34 @@ function deleteCourse(event) {
   var deleteBtn = jQuery(event.target)
   var theClass = deleteBtn.attr("class")
   var theIndex = deleteBtn.attr("id")
-  var theId = courses[theIndex]._id
+  var theId = users[theIndex]._id
   console.log(theClass)
   console.log(theIndex)
 
   courseService.deleteCourse(theId)
   .then(function (status) {
-    courses.splice(theIndex, 1)
-    renderCourses(courses)
+    users.splice(theIndex, 1)
+    renderCourses(users)
   })
 }
 
-function renderCourses(courses) {
+function renderCourses(users) {
   theTableBody.empty()
-  for (var i = 0; i < courses.length; i++) {
-    var course = courses[i]
+  for (var i = 0; i < users.length; i++) {
+    var user = users[i]
     theTableBody
-    .prepend(`
+    .append(`
     <tr>
-        <td>${course.title}</td>
-        <td>${course.seats}</td>
-        <td>${course.semester}</td>
-        <td>
-            <button class="wbdv-delete" id="${i}">Delete</button>
-            <button class="wbdv-select" id="${course._id}">Select</button>
+        <td>${user.username}</td>
+        <td >****</td>
+        <td>${user.firstName}</td>
+        <td>${user.lastName}</td>
+        <td>${user.role}</td>
+        <td class="wbdv-actions">
+          <span class="pull-right">
+            <i class="fa fa-2x fa-times wbdv-delete" id="${i}"></i>
+            <i class="fa-2x fa fa-pencil wbdv-select" id="${user._id}"></i>
+          </span>
         </td>
     </tr>
   `)
@@ -75,49 +79,63 @@ function renderCourses(courses) {
   jQuery(".wbdv-delete")
   .click(deleteCourse)
   jQuery(".wbdv-select")
-  .click(selectCourse)
+  .click(selectUser)
 }
 // renderCourses(courses)
 
-function updateCourse() {
-  console.log(selectedCourse)
-  selectedCourse.title = titleFld.val()
-  selectedCourse.seats = $seatsFld.val()
-  selectedCourse.semester = $semesterFld.val()
-  courseService.updateCourse(selectedCourse._id, selectedCourse)
+function updateUser() {
+  console.log(selectedUser)
+  selectedUser.username = $usernameFld.val()
+  selectedUser.password = $passwordFld.val()
+  selectedUser.firstName = $firstNameFld.val()
+  selectedUser.lastName = $lastNameFld.val()
+  selectedUser.role = $roleFld.val()
+  courseService.updateCourse(selectedUser._id, selectedUser)
   .then(function (status) {
-    var index = courses.findIndex(course => course._id === selectedCourse._id)
-    courses[index] = selectedCourse
-    renderCourses(courses)
+    var index = users.findIndex(user => user._id === selectedUser._id)
+    users[index] = selectedUser
+    renderCourses(users)
   })
+  $usernameFld.val("")
+  $passwordFld.val("")
+  $firstNameFld.val("")
+  $lastNameFld.val("")
+  $roleFld.val("Faculty")
 }
 
 function init() {
-  titleFld = $(".wbdv-title-fld")
-  $seatsFld = $(".wbdv-seats-fld")
-  $semesterFld = $(".wbdv-semester-fld")
+  $usernameFld = $(".wbdv-username-fld")
+  $passwordFld = $(".wbdv-password-fld")
+  $firstNameFld = $(".wbdv-first-name-fld")
+  $lastNameFld = $(".wbdv-last-name-fld")
+  $roleFld = $(".wbdv-role-fld")
   $createBtn = $(".wbdv-create-btn")
-  addCourseBtn = jQuery("#wbdv-create-course")
-  addCourseBtn.click(addCourse)
   $updateBtn = $(".wbdv-update-btn")
-  theTableBody = jQuery("tbody")
+  theTableBody = jQuery("#table-rows")
 
-  $updateBtn.click(updateCourse)
+  $updateBtn.click(updateUser)
   $createBtn.click(() => {
-        createCourse({
-          title: titleFld.val(),
-          seats: $seatsFld.val(),
-          semester: $semesterFld.val()
-        })
-        titleFld.val("")
-        $seatsFld.val()
-      }
-  )
+    createUser({
+      username: $usernameFld.val(),
+      password: $passwordFld.val(),
+      firstName: $firstNameFld.val(),
+      lastName: $lastNameFld.val(),
+      role: $roleFld.val()
+    })
+    $usernameFld.val("")
+    $passwordFld.val("")
+    $firstNameFld.val("")
+    $lastNameFld.val("")
+    $roleFld.val("Faculty")
+  })
+
+
 
   courseService.findAllCourses()
   .then(function (actualCoursesFromServer) {
-    courses = actualCoursesFromServer
-    renderCourses(courses)
+    users = actualCoursesFromServer
+    renderCourses(users)
   })
 }
 jQuery(init)
+
